@@ -48,20 +48,28 @@
 					 val: "-"
 					,isInternal: false
 					,leftChild: {
-						 val: "8"
-						,isInternal: true
+						 val: "*"
+						,isInternal: false
+						,leftChild: {
+							 val: "3"
+							,isInternal: true
+						}
+						,rightChild: {
+							 val: "4"
+							,isInternal: true
+						}
 					}
 					,rightChild: {
-						 val: "3"
+						 val: "8"
 						,isInternal: true
 					}
 				}
 			}
 			,rightChild: {
-				 val: "-"
+				 val: "*"
 				,isInternal: false
 				,leftChild: {
-					 val: "*"
+					 val: "+"
 					,isInternal: false
 					,leftChild: {
 						 val: "4"
@@ -114,13 +122,13 @@
 						if(right != 0){
 							return left / right;
 						} else {
-							document.write("<br />Division by 0!<br />");
-							return 0;
+							alert("<br />Division by 0!<br />");
+							return NaN;
 						}
 					break;
 					default:
-						document.write("<br />Bad operator: "+node.val+"<br />");
-						return 0;
+						alert("<br />Bad operator: "+node.val+"<br />");
+						return NaN;
 					break;
 				}
 			}
