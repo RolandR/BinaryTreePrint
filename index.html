@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+	<head>
+		<title>
+			Binary Tree Print
+		</title>
+		<style>
+			#out{
+				font-family: monospace;
+				white-space: pre;
+				font-size: 21px;
+			}
+
+			#tree{
+				color: #BBBBBB;
+				line-height: 26px;
+			}
+
+			.v{
+				color: #000000;
+				background-color: #FFFFAA;
+				border-radius: 5px;
+			}
+
+			.o{
+				color: #000000;
+				background-color: #FFCCAA;
+				border-radius: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="out"></div>
+		
+		<script type="text/javascript">
+
+		var tree = {
+			 val: "+"
+			,isInternal: false
+			,leftChild: {
+				 val: "/"
+				,isInternal: false
+				,leftChild: {
+					 val: "2"
+					,isInternal: true
+				}
+				,rightChild: {
+					 val: "-"
+					,isInternal: false
+					,leftChild: {
+						 val: "8"
+						,isInternal: true
+					}
+					,rightChild: {
+						 val: "3"
+						,isInternal: true
+					}
+				}
+			}
+			,rightChild: {
+				 val: "-"
+				,isInternal: false
+				,leftChild: {
+					 val: "*"
+					,isInternal: false
+					,leftChild: {
+						 val: "4"
+						,isInternal: true
+					}
+					,rightChild: {
+						 val: "9"
+						,isInternal: true
+					}
+				}
+				,rightChild: {
+					 val: "11"
+					,isInternal: true
+				}
+			}
+		}
+
+		function getString(node){
+			if(node.isInternal){
+				return node.val;
+			} else {
+				var out = "(";
+				out += getString(node.leftChild);
+				out += node.val;
+				out += getString(node.rightChild);
+				out += ")";
+				return out;
+			}
+		}
+
+		function calculate(node){
+			if(node.isInternal){
+				return node.val * 1;
+			} else {
+
+				var left = calculate(node.leftChild);
+				var right = calculate(node.rightChild);
+
+				switch(node.val){
+					case "+":
+						return left + right;
+					break;
+					case "-":
+						return left - right;
+					break;
+					case "*":
+						return left * right;
+					break;
+					case "/":
+						if(right != 0){
+							return left / right;
+						} else {
+							document.write("<br />Division by 0!<br />");
+							return 0;
+						}
+					break;
+					default:
+						document.write("<br />Bad operator: "+node.val+"<br />");
+						return 0;
+					break;
+				}
+			}
+		}
+
+		function buildFancy(node){
+			
+			if(node.isInternal){
+				return ['<span class="v">'+node.val+'</span>'];
+			} else {				
+				var out = [];
+				out.push('<span class="o">'+node.val+'</span>');
+				
+				var left = buildFancy(node.leftChild);
+				var right = buildFancy(node.rightChild);
+
+				for(var i in left){
+					var l = left[i];
+					if(i == 0){
+						l = "├" + l;
+					} else {
+						l = "│" + l;
+					}
+					out.push(l);
+				}
+
+				for(var i in right){
+					var r = right[i];
+					if(i == 0){
+						r = "└" + r;
+					} else {
+						r = " " + r;
+					}
+					out.push(r);
+				}
+				
+				return out;
+			}
+		}
+
+		function fancyPrint(node){
+			var arr = buildFancy(node, 0);
+			var out = "";
+			for(var i in arr){
+				out += arr[i] + "<br />";
+			}
+			return out;
+		}
+
+		var out = document.getElementById("out");
+
+		out.innerHTML += getString(tree)+" = ";
+		out.innerHTML += calculate(tree)+"<br /><br />";
+		out.innerHTML += '<span id="tree">'+fancyPrint(tree, 0)+"</span><br />";
+
+		</script>
+	</body>
+</html>
